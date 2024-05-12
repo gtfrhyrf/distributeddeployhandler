@@ -1,11 +1,20 @@
-function isValidBST(root) {
-  return isValid(root, null, null);
-  function isValid(node, min, max) {
-    if (!node) return true;
-    if ((min !== null && node.val <= min) || (max !== null && node.val >= max))
-      return false;
-    return (
-      isValid(node.left, min, node.val) && isValid(node.right, node.val, max)
-    );
+function zigzagLevelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  const queue = [root];
+  let zigzag = false;
+  while (queue.length) {
+    const levelSize = queue.length;
+    const currentLevel = [];
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      if (zigzag) currentLevel.unshift(node.val);
+      else currentLevel.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(currentLevel);
+    zigzag = !zigzag;
   }
+  return result;
 }
